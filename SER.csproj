@@ -209,7 +209,7 @@
         <Compile Include="MethodSystem\Methods\HealthMethods\HealMethod.cs" />
         <Compile Include="MethodSystem\Methods\HealthMethods\SetHumeShieldMethod.cs" />
         <Compile Include="MethodSystem\Methods\ItemMethods\ItemInfoMethod.cs" />
-        <Compile Include="MethodSystem\Methods\LiteralVariableMethods\PlayerDataExistsMethod.cs" />
+        <Compile Include="MethodSystem\Methods\LiteralVariableMethods\HasPlayerDataMethod.cs" />
         <Compile Include="MethodSystem\Methods\MapMethods\CleanupPickupsMethod.cs" />
         <Compile Include="MethodSystem\Methods\MapMethods\DecontaminationMethod.cs" />
         <Compile Include="MethodSystem\Methods\OutputMethods\ErrorMethod.cs" />

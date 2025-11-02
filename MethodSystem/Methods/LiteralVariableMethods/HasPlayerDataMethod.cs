@@ -5,7 +5,7 @@ using SER.ValueSystem;
 
 namespace SER.MethodSystem.Methods.LiteralVariableMethods;
 
-public class PlayerDataExistsMethod : ReturningMethod<BoolValue>
+public class HasPlayerDataMethod : ReturningMethod<BoolValue>
 {
     public override string Description => "Checks if a given key has an associated value for a given player.";
 
