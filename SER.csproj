@@ -308,6 +308,7 @@
         <Compile Include="Plugin\Commands\MethodCommand.cs" />
         <Compile Include="Plugin\Commands\ReloadCommand.cs" />
         <Compile Include="Plugin\Commands\RunCommand.cs" />
+        <Compile Include="Plugin\Commands\RunningScriptsCommand.cs" />
         <Compile Include="Plugin\Commands\StopAllCommand.cs" />
         <Compile Include="Plugin\Commands\StopCommand.cs" />
         <Compile Include="Plugin\Config.cs" />

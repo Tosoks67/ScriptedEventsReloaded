@@ -56,7 +56,7 @@ public class Script
     
     public bool IsRunning => RunningScripts.Contains(this);
 
-    private static readonly List<Script> RunningScripts = [];
+    public static readonly List<Script> RunningScripts = [];
     private readonly HashSet<Variable> _variables = [];
     private CoroutineHandle _scriptCoroutine;
     private bool? _isEventAllowed;
