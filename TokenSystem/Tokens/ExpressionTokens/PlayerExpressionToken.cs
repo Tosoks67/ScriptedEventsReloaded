@@ -52,7 +52,7 @@ public class PlayerExpressionToken : ExpressionToken
         IsNorthwoodStaff,
         IsBypassEnabled,
         IsGodModeEnabled,
-        IsNoclipEnabled
+        IsNoclipEnabled,
         Gravity,
         RoleChangeReason,
         RoleSpawnFlags,
