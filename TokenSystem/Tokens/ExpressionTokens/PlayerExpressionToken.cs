@@ -52,6 +52,7 @@ public class PlayerExpressionToken : ExpressionToken
         IsBypassEnabled,
         IsGodModeEnabled,
         IsNoclipEnabled,
+        Gravity,
     }
 
     public abstract class Info
@@ -103,6 +104,7 @@ public class PlayerExpressionToken : ExpressionToken
         [PlayerProperty.IsBypassEnabled] = new Info<BoolValue>(plr => plr.IsBypassEnabled, null),
         [PlayerProperty.IsGodModeEnabled] = new Info<BoolValue>(plr => plr.IsGodModeEnabled, null),
         [PlayerProperty.IsNoclipEnabled] = new Info<BoolValue>(plr => plr.IsNoclipEnabled, null),
+        [PlayerProperty.Gravity] = new Info<NumberValue>(plr => -(decimal)plr.Gravity.y, null),
     };
 
     protected override IParseResult InternalParse(BaseToken[] tokens)
