@@ -13,64 +13,65 @@ public class WarheadMethod : SynchronousMethod
     public override Argument[] ExpectedArguments =>
     [
         new OptionsArgument("action", 
-            "Open",
-            "Close",
-            "Arm",
-            "Disarm",
-            "Lock",
-            "Unlock",
-            "Start",
-            "Stop",
-            "Detonate",
-            "Shake"
-            )
+            "open",
+            "close",
+            "arm",
+            "disarm",
+            "lock",
+            "unlock",
+            "start",
+            "stop",
+            "detonate",
+            "shake"
+        )
     ];
     
     public override void Execute()
     {
         switch (Args.GetOption("action"))
         {
-            case "open":
-                Warhead.IsAuthorized = true;
-            break;
+            case "open": 
+                Warhead.IsAuthorized = true; 
+                break;
 
             case "close":
                 Warhead.IsAuthorized = false;
-            break;
+                break;
 
             case "lock":
                 Warhead.IsLocked = true;
-            break;
+                break;
 
             case "unlock":
                 Warhead.IsLocked = false;
-            break;
+                break;
 
             case "arm":
-                Warhead.BaseNukesitePanel.Networkenabled = true;
-            break;
+                Warhead.BaseNukesitePanel?.Networkenabled = true;
+                break;
 
             case "disarm":
-                Warhead.BaseNukesitePanel.Networkenabled = false;
+                Warhead.BaseNukesitePanel?.Networkenabled = false;
                 break;
 
             case "start":
                 Warhead.Start();
-            break;
+                break;
 
             case "stop":
                 Warhead.Stop();
-            break;
+                break;
 
             case "detonate":
                 Warhead.Detonate();
-            break;
+                break;
 
             case "shake":
                 Warhead.Shake();
-            break;
+                break;
 
-            default: throw new KrzysiuFuckedUpException("out of range");
+            default: 
+                throw new KrzysiuFuckedUpException("out of range");
         }
     }
 }
