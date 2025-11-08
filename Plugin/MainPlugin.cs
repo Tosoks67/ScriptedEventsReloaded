@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using LabApi.Features;
 using LabApi.Features.Console;
 using MEC;
-using SER.FlagSystem.Structures;
+using SER.FlagSystem.Flags;
 using SER.Helpers.Extensions;
 using SER.MethodSystem;
 using SER.MethodSystem.Methods.LiteralVariableMethods;
