@@ -7,9 +7,7 @@ using SER.TokenSystem.Tokens;
 
 namespace SER.ArgumentSystem.Arguments;
 
-/// <summary>
-/// Represents a script object argument used in a method.
-/// </summary>
+// todo: this argument creates new scripts which is a biiig stupidoo
 public class ScriptArgument(string name) : Argument(name)
 {
     public override string InputDescription => "Name of an existing script";
