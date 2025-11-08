@@ -63,7 +63,7 @@ public class Script
 
 
     private readonly HashSet<Variable> _variables = [];
-    public ReadOnlyCollection<Variable> Variables => new(_variables.ToList());
+    public ReadOnlyCollection<Variable> Variables => _variables.ToList().AsReadOnly();
     
     private CoroutineHandle _scriptCoroutine;
     private bool? _isEventAllowed;
