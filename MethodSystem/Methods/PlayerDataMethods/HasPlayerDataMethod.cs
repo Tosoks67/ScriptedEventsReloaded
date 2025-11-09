@@ -3,7 +3,7 @@ using SER.ArgumentSystem.BaseArguments;
 using SER.MethodSystem.BaseMethods;
 using SER.ValueSystem;
 
-namespace SER.MethodSystem.Methods.LiteralVariableMethods;
+namespace SER.MethodSystem.Methods.PlayerDataMethods;
 
 public class HasPlayerDataMethod : ReturningMethod<BoolValue>
 {

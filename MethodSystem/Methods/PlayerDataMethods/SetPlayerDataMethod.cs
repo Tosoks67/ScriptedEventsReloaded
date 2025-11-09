@@ -5,7 +5,7 @@ using SER.MethodSystem.BaseMethods;
 using SER.MethodSystem.MethodDescriptors;
 using SER.ValueSystem;
 
-namespace SER.MethodSystem.Methods.LiteralVariableMethods;
+namespace SER.MethodSystem.Methods.PlayerDataMethods;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public class SetPlayerDataMethod : SynchronousMethod, IAdditionalDescription

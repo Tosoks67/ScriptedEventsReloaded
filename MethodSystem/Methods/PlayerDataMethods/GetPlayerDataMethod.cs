@@ -3,7 +3,7 @@ using SER.ArgumentSystem.BaseArguments;
 using SER.Helpers.Exceptions;
 using SER.MethodSystem.BaseMethods;
 
-namespace SER.MethodSystem.Methods.LiteralVariableMethods;
+namespace SER.MethodSystem.Methods.PlayerDataMethods;
 
 public class GetPlayerDataMethod : ReturningMethod
 {
