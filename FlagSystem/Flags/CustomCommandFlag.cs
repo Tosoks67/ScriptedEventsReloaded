@@ -1,13 +1,16 @@
 ﻿using CommandSystem;
 using JetBrains.Annotations;
 using RemoteAdmin;
+using SER.Helpers;
 using SER.Helpers.Exceptions;
 using SER.Helpers.Extensions;
 using SER.Helpers.ResultSystem;
 using SER.ScriptSystem;
 using SER.ScriptSystem.Structures;
 using SER.TokenSystem;
+using SER.TokenSystem.Tokens.Interfaces;
 using SER.ValueSystem;
+using SER.VariableSystem.Bases;
 using SER.VariableSystem.Variables;
 using Console = GameCore.Console;
 
@@ -177,7 +180,8 @@ public class CustomCommandFlag : Flag
             return "The script that was supposed to handle this command was not found.";
         }
 
-        if (Tokenizer.SliceLine(args.JoinStrings(" ")).HasErrored(out var sliceError, out var outSlices))
+        if (Tokenizer.SliceLine(args.JoinStrings(" "))
+            .HasErrored(out var sliceError, out var outSlices))
         {
             return sliceError;
         }
@@ -203,11 +207,21 @@ public class CustomCommandFlag : Flag
 
         for (var index = 0; index < requestingCommand.Usage.Length; index++)
         {
+            var slice = slices[index];
             var argVariable = requestingCommand.Usage[index];
             var name = argVariable[0].ToString().ToLower() + argVariable.Substring(1);
+
+            if (Tokenizer.GetTokenFromSlice(slice, null!, 0)
+                .WasSuccessful(out var token))
+            {
+                if (token.TryGetLiteralValue<LiteralValue>().WasSuccessful(out var value))
+                {
+                    script.AddVariable(Variable.CreateVariable(name, value));
+                    continue;
+                }
+            }
             
-            // todo: need to parse values from string too (probably using tokenizer)
-            script.AddVariable(new LiteralVariable<TextValue>(name, slices[index].Value));
+            script.AddVariable(new LiteralVariable<TextValue>(name, slice.Value));
         }
 
         script.Run();
