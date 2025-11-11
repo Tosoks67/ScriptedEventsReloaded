@@ -8,14 +8,16 @@ using SER.TokenSystem.Tokens;
 namespace SER.ContextSystem.Contexts.Control.Loops;
 
 [UsedImplicitly]
-public class ForeverLoopContext : StatementContext, IKeywordContext
+public class ForeverLoopContext : LoopContext, IKeywordContext
 {
     private readonly Result _mainErr = "Cannot create 'forever' loop.";
-    private bool _skipChild = false;
+
+    public override Dictionary<IExtendableStatement.Signal, Func<IEnumerator<float>>> RegisteredSignals { get; } =
+        new();
     
-    public string KeywordName => "forever";
-    public string Description => "Makes the code inside the statement run indefinitely.";
-    public string[] Arguments => [];
+    public override string KeywordName => "forever";
+    public override string Description => "Makes the code inside the statement run indefinitely.";
+    public override string[] Arguments => [];
 
     public override TryAddTokenRes TryAddToken(BaseToken token)
     {
@@ -33,27 +35,18 @@ public class ForeverLoopContext : StatementContext, IKeywordContext
         {
             foreach (var coro in Children.Select(child => child.ExecuteBaseContext()))
             {
+                if (ExitLoop) yield break;
+                
                 while (coro.MoveNext())
                 {
                     yield return coro.Current;
                 }
 
-                if (!_skipChild) continue;
+                if (!SkipThisIteration) continue;
 
-                _skipChild = false;
+                SkipThisIteration = false;
                 break;
             }
         }
-    }
-
-    protected override void OnReceivedControlMessageFromChild(ParentContextControlMessage msg)
-    {
-        if (msg == ParentContextControlMessage.LoopContinue)
-        {
-            _skipChild = true;
-            return;
-        }
-
-        ParentContext?.SendControlMessage(msg);
     }
 }
