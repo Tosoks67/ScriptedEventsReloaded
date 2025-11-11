@@ -20,7 +20,7 @@ public class ReloadCommand : ICommand, IUsePermissions
         }
         
         ScriptFlagHandler.Clear();
-        FileSystem.Initialize();
+        FileSystem.FileSystem.Initialize();
         
         response = "Successfully reloaded scripts. Changes in script flags are now registered.";
         return true;

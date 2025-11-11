@@ -36,7 +36,7 @@ public class DocsCommand : ICommand, IUsePermissions
             sb.AppendLine();
         }
 
-        using (var sw = File.CreateText(Path.Combine(FileSystem.DirPath, "# Documentation #.txt")))
+        using (var sw = File.CreateText(Path.Combine(FileSystem.FileSystem.MainDirPath, "# Documentation #.txt")))
         {
             sw.Write(sb.ToString());
             sw.Flush();

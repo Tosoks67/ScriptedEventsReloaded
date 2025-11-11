@@ -7,7 +7,7 @@ public class ExamplesCommand : ICommand
 {
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        FileSystem.GenerateExamples();
+        FileSystem.FileSystem.GenerateExamples();
         response = "Examples have been generated!";
         return true;
     }

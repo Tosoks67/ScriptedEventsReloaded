@@ -1,5 +1,4 @@
 ﻿using SER.Helpers.ResultSystem;
-using SER.Plugin;
 
 namespace SER.ScriptSystem.Structures;
 
@@ -25,7 +24,7 @@ public readonly record struct ScriptName
     
     public static TryGet<ScriptName> TryInit(string name)
     {
-        if (FileSystem.DoesScriptExist(name))
+        if (FileSystem.FileSystem.DoesScriptExist(name))
         {
             return $"Script '{name}' does not exist in the SER folder or is inaccessible.";
         }

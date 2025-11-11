@@ -10,7 +10,6 @@ using SER.Helpers;
 using SER.Helpers.Exceptions;
 using SER.Helpers.Extensions;
 using SER.Helpers.ResultSystem;
-using SER.Plugin;
 using SER.ScriptSystem.Structures;
 using SER.TokenSystem;
 using SER.TokenSystem.Structures;
@@ -90,7 +89,7 @@ public class Script
         return new Script
         {
             Name = scriptName,
-            Content = File.ReadAllText(FileSystem.GetScriptPath(scriptName)),
+            Content = File.ReadAllText(FileSystem.FileSystem.GetScriptPath(scriptName)),
             Executor = executor ?? ScriptExecutor.Get()
         };
     }
