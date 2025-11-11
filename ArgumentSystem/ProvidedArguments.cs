@@ -1,6 +1,7 @@
 ﻿using LabApi.Features.Wrappers;
 using SER.ArgumentSystem.Arguments;
 using SER.ArgumentSystem.Structures;
+using SER.FileSystem.Structures;
 using SER.Helpers;
 using SER.Helpers.Exceptions;
 using SER.Helpers.Extensions;
@@ -20,6 +21,11 @@ public class ProvidedArguments(Method method)
 {
     private Dictionary<(string name, Type type), List<DynamicTryGet>> Arguments { get; } = [];
 
+    public Database GetDatabase(string argName)
+    {
+        return GetValue<Database, DatabaseArgument>(argName);
+    }
+    
     public Script GetCreatedScript(string argName)
     {
         return GetValue<Script, CreatedScriptArgument>(argName);
