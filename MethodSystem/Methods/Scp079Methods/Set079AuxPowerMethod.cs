@@ -4,28 +4,29 @@ using SER.ArgumentSystem.Arguments;
 using SER.ArgumentSystem.BaseArguments;
 using SER.MethodSystem.BaseMethods;
 
-namespace SER.MethodSystem.Methods.SCP079Methods;
-public class Set079ExpMethod : SynchronousMethod
+namespace SER.MethodSystem.Methods.Scp079Methods;
+
+public class Set079AuxPowerMethod : SynchronousMethod
 {
-    public override string Description => "Sets the EXP of the given player(s) if they are SCP-079";
+    public override string Description => "Sets the Auxiliary Power of the given player(s) if they are SCP-079";
 
     public override Argument[] ExpectedArguments =>
     [
         new PlayersArgument("players"),
-        new IntArgument("exp", 0)
+        new IntArgument("power", 0)
     ];
 
     public override void Execute()
     {
         var plrs = Args.GetPlayers("players");
-        var value = Args.GetInt("exp");
+        var value = Args.GetInt("power");
         foreach (Player p in plrs)
         {
             if (p.RoleBase is Scp079Role scp)
             {
-                if (scp.SubroutineModule.TryGetSubroutine<Scp079TierManager>(out Scp079TierManager tier))
+                if (scp.SubroutineModule.TryGetSubroutine<Scp079AuxManager>(out Scp079AuxManager aux))
                 {
-                    tier.TotalExp = value;
+                    aux.CurrentAux = value;
                 }
             }
         }
