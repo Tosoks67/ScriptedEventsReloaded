@@ -93,14 +93,20 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     </ItemGroup>
 
+
     <Target Name="EmbedSelectedDependencies" AfterTargets="ResolveReferences">
         <ItemGroup>
             <EmbeddedResource Include="@(ReferenceCopyLocalPaths)"
                               Condition="'%(Extension)' == '.dll' and
-                                 ( '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NCalc' or
+                                 (
                                    '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'AudioPlayerApi' or
-                                   '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'Newtonsoft.Json' )" />
+                                   '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NCalc' or
+                                   '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'Newtonsoft.Json' or
+                                   '%(Filename)' == 'NVorbis' or
+                                   '%(Filename)' == 'SharpCompress'
+                                 )" />
         </ItemGroup>
     </Target>
+    
 
 </Project>
