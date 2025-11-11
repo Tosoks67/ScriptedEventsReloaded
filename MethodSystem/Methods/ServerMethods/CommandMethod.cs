@@ -4,6 +4,7 @@ using SER.ArgumentSystem.BaseArguments;
 using SER.Helpers.Extensions;
 using SER.MethodSystem.BaseMethods;
 using SER.MethodSystem.MethodDescriptors;
+using SER.VariableSystem.Variables;
 using Console = GameCore.Console;
 
 namespace SER.MethodSystem.Methods.ServerMethods;
@@ -21,7 +22,7 @@ public class CommandMethod : SynchronousMethod, IAdditionalDescription
         new TextArgument("command"),
         new PlayerArgument("sender")
         {
-            DefaultValue = null
+            DefaultValue = new(null, "unspecified") 
         }
     ];
 
