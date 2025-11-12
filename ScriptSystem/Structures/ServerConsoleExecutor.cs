@@ -23,6 +23,13 @@ public class ServerConsoleExecutor : ScriptExecutor
 
     public override void Error(string content, Script scr)
     {
-        Log.RuntimeError(scr.Name, scr.CurrentLine, content);
+        if (scr.CurrentLine == 0)
+        {
+            Log.CompileError(scr.Name, content);
+        }
+        else
+        {
+            Log.RuntimeError(scr.Name, scr.CurrentLine, content);
+        }
     }
 }

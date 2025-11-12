@@ -11,11 +11,23 @@ public class PlayerConsoleExecutor : ScriptExecutor
 
     public override void Warn(string content, Script scr)
     {
-        Sender.gameConsoleTransmission.SendToClient(content, "yellow");
+        Sender.gameConsoleTransmission.SendToClient(
+            $"[WARN] " +
+            $"[Script {scr.Name}] " +
+            $"[{(scr.CurrentLine == 0 ? "Compile warning" : $"Line {scr.CurrentLine}")}] " +
+            $"{content}",
+            "yellow"
+        );
     }
 
     public override void Error(string content, Script scr)
     {
-        Sender.gameConsoleTransmission.SendToClient(content, "red");
+        Sender.gameConsoleTransmission.SendToClient(
+            $"[ERROR] " +
+            $"[Script {scr.Name}] " +
+            $"[{(scr.CurrentLine == 0 ? "Compile error" : $"Line {scr.CurrentLine}")}] " +
+            $"{content}",
+            "red"
+        );
     }
 }
