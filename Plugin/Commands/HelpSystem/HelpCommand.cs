@@ -406,7 +406,7 @@ public class HelpCommand : ICommand
     private static string GetMethodList()
     {
         var methods = MethodIndex.GetMethods();
-        var maxMethodLen = methods.Max(m => m.Name.Length) + 7;
+        const string retsPrefix = " [rets]";
         
         Dictionary<string, List<Method>> methodsByCategory = new();
         foreach (var method in methods)
@@ -427,6 +427,10 @@ public class HelpCommand : ICommand
         
         foreach (var kvp in methodsByCategory.Reverse())
         {
+            var descDistance = kvp.Value
+                .Select(m => m.Name.Length + (m is ReturningMethod ? retsPrefix.Length : 0))
+                .Max() + 1;
+            
             sb.AppendLine();
             sb.AppendLine($"--- {kvp.Key} methods ---");
             foreach (var method in kvp.Value)
@@ -437,18 +441,11 @@ public class HelpCommand : ICommand
                     name += " [rets]";
                 }
 
-                if (maxMethodLen - name.Length > 0)
-                {
-                    var desc = method.Description ?? $"Extracts information from {((IReferenceResolvingMethod)method).ReferenceType.Name} objects.";
-                    
-                    var descFormatted = desc
-                        .Insert(0, new string(' ', maxMethodLen - name.Length));
-                    sb.AppendLine($"> {name} {descFormatted}");
-                }
-                else
-                {
-                    sb.AppendLine($"> {name} {method.Description}");
-                }
+                var descDistanceString = new string(' ', descDistance - name.Length);
+                var desc = method.Description 
+                           ?? $"Extracts information from {((IReferenceResolvingMethod)method).ReferenceType.Name} objects.";
+                
+                sb.AppendLine($"> {name}{descDistanceString}~ {desc}");
             }
         }
         
