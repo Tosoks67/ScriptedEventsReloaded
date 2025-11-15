@@ -75,7 +75,7 @@ public static class FileSystem
         return RegisteredScriptPaths.First(p => Path.GetFileNameWithoutExtension(p) == scriptName.Value);
     }
     
-    public static bool DoesScriptExist(string scriptName, out string path)
+    public static bool DoesScriptExistByName(string scriptName, out string path)
     {
         UpdateScriptPathCollection();
         
@@ -83,7 +83,7 @@ public static class FileSystem
         return !string.IsNullOrEmpty(path);
     }
     
-    public static bool DoesScriptExist(string path)
+    public static bool DoesScriptExistByPath(string path)
     {
         UpdateScriptPathCollection();
         

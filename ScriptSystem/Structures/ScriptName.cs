@@ -24,7 +24,7 @@ public readonly record struct ScriptName
     
     public static TryGet<ScriptName> TryInit(string name)
     {
-        if (!FileSystem.FileSystem.DoesScriptExist(name))
+        if (!FileSystem.FileSystem.DoesScriptExistByName(name, out _))
         {
             return $"Script '{name}' does not exist in the SER folder or is inaccessible.";
         }
