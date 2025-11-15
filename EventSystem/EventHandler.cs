@@ -151,7 +151,7 @@ public static class EventHandler
 
     private static void OnArgumentedEvent<T>(string evName, T ev) where T : EventArgs
     {
-        Log.Debug($"[Arg] Event '{evName}' triggered with {typeof(T).Name}.");
+        Log.Debug($"[Arg] Event '{evName}' triggered with {typeof(T).GetAccurateName()}.");
 
         if (ev is ICancellableEvent cancellable && DisabledEvents.Contains(evName))
         {
@@ -199,8 +199,7 @@ public static class EventHandler
     
     public static List<string> GetMimicVariables(EventInfo ev)
     {
-        var genericType = ev.EventHandlerType.GetGenericArguments().FirstOrDefault();
-        if (genericType is null)
+        if (ev.EventHandlerType.GetGenericArguments().FirstOrDefault() is not { } genericType)
         {
             return [];
         }
