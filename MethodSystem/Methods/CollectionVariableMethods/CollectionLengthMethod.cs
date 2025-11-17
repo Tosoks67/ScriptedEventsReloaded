@@ -7,7 +7,7 @@ namespace SER.MethodSystem.Methods.CollectionVariableMethods;
 
 public class CollectionLengthMethod : ReturningMethod<NumberValue>
 {
-    public override string? Description => "Returns the amount of items in a collection.";
+    public override string Description => "Returns the amount of items in a collection.";
 
     public override Argument[] ExpectedArguments { get; } =
     [
