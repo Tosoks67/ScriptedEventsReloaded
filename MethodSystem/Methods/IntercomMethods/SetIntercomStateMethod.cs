@@ -7,7 +7,7 @@ namespace SER.MethodSystem.Methods.IntercomMethods;
 
 public class SetIntercomStateMethod : SynchronousMethod
 {
-    public override string? Description => "";
+    public override string Description => "Sets the state of usage of the intercom.";
 
     public override Argument[] ExpectedArguments { get; } =
     [
