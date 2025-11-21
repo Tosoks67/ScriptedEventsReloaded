@@ -49,7 +49,17 @@ public class CollectionValue(IEnumerable value) : Value
             if (CastedValues == Array.Empty<Value>()) field = value;
         }
     } = null!;
-    
+
+    public override bool EqualCondition(Value other)
+    {
+        if (other is not CollectionValue otherP || otherP.CastedValues.Length != CastedValues.Length) return false;
+        for (int i = 0; i < CastedValues.Length; i++)
+        {
+            if (!CastedValues[i].EqualCondition(otherP.CastedValues[i])) return false;
+        }
+        return true;
+    }
+
     public TryGet<Value> GetAt(int index)
     {
         if (index < 1) return $"Provided index {index}, but index cannot be less than 1";

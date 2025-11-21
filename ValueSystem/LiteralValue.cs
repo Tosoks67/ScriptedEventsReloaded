@@ -9,6 +9,8 @@ public abstract class LiteralValue(object value) : Value
     
     public object Value => value;
 
+    public override bool EqualCondition(Value other) => other is LiteralValue otherP && Value.Equals(otherP.Value);
+
     public override string ToString()
     {
         return StringRep;
