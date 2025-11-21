@@ -8,7 +8,11 @@ public class ReferenceValue(object? value) : Value
     public bool IsValid => value is not null;
     public object Value => value ?? throw new ScriptRuntimeError("Value of reference is invalid.");
 
-    public override bool EqualCondition(Value other) => other is ReferenceValue otherP && Value.Equals(otherP.Value);
+    public override bool EqualCondition(Value other)
+    {
+        if (other is not ReferenceValue otherP || !IsValid || !otherP.IsValid) return false;
+        return Value.Equals(otherP.Value);
+    }
 
     public override string ToString()
     {
