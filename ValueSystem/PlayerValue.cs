@@ -15,4 +15,6 @@ public class PlayerValue : Value
     }
 
     public Player[] Players { get; }
+
+    public override bool EqualCondition(Value other) => other is PlayerValue otherP && Players.SequenceEqual(otherP.Players);
 }

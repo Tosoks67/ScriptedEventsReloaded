@@ -49,7 +49,9 @@ public class CollectionValue(IEnumerable value) : Value
             if (CastedValues == Array.Empty<Value>()) field = value;
         }
     } = null!;
-    
+
+    public override bool EqualCondition(Value other) => other is CollectionValue otherP && CastedValues.SequenceEqual(otherP.CastedValues) && Type == otherP.Type;
+
     public TryGet<Value> GetAt(int index)
     {
         if (index < 1) return $"Provided index {index}, but index cannot be less than 1";
