@@ -7,6 +7,8 @@ namespace SER.ValueSystem;
 public abstract class Value
 {
     public abstract bool EqualCondition(Value other);
+    
+    public abstract int HashCode { get; }
 
     public static Value Parse(object obj)
     {
@@ -39,19 +41,9 @@ public abstract class Value
     public static string FriendlyName(Type type) => type.Name.Replace("Value", "").ToLower();
     public string FriendlyName() => FriendlyName(GetType());
 
-    public override int GetHashCode()
-    {
-        return this switch
-        {
-            LiteralValue    => ((LiteralValue)this).Value.GetHashCode(),
-            PlayerValue     => ((PlayerValue)this).Players.GetHashCode(), // Returns the hash code of the reference, not the value
-            CollectionValue => ((CollectionValue)this).CastedValues.GetHashCode(), // Returns the hash code of the reference, not the value
-            ReferenceValue  => ((ReferenceValue)this).Value.GetHashCode(), // Might return the hash code of the reference, not the value
-            _               => throw new TosoksFuckedUpException("undefined value type")
-        };
-    }
+    public override int GetHashCode() => HashCode;
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return this == obj;
     }

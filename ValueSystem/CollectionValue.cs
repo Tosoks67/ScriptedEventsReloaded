@@ -16,49 +16,53 @@ public class CollectionValue(IEnumerable value) : Value
             List<Value> list = [];
             list.AddRange(from object item in value select Parse(item));
 
-            if (list.Select(i => i.GetType()).Distinct().Count() > 1)
+            var types = list.Select(i => i.GetType()).Distinct().ToArray();
+            if (types.Length > 1)
             {
                 throw new ScriptRuntimeError("Collection was detected with mixed types.");
             }
-
+            
+            Type = types.FirstOrDefault();
             return field = list.ToArray();
         }
     } = null!;
 
-    public Type Type
+    /// <summary>
+    /// The type of values inside the collection.
+    /// Returns null if the collection is empty.
+    /// </summary>
+    /// <exception cref="ScriptRuntimeError">Collection has mixed types</exception>
+    public Type? Type
     {
         get
         {
-            if (CastedValues != Array.Empty<Value>())
+            if (CastedValues.IsEmpty()) return null;
+            if (field is not null) return field;
+            
+            var types = CastedValues
+                .ToList()
+                .RemoveNulls()
+                .Select(i => i.GetType())
+                .Distinct()
+                .ToArray();
+
+            return types.Length switch
             {
-                var typeList = CastedValues.ToList().RemoveNulls().Select(i => i.GetType()).Distinct();
-                switch (typeList.Count())
-                {
-                    case > 1:
-                        throw new ScriptRuntimeError("Collection was detected with mixed types.");
-                    case 1:
-                        return field = typeList.First();
-                }
-            }
-
-            return field;
+                > 1 => throw new ScriptRuntimeError("Collection was detected with mixed types."),
+                1 => field = types.First(),
+                < 1 => throw new Exception("if you see this, the fabric of the universe is collapsing, seek shelter from the darkness")
+            };
         }
-
-        set
-        {
-            if (CastedValues == Array.Empty<Value>()) field = value;
-        }
-    } = null!;
+        private set;
+    }
 
     public override bool EqualCondition(Value other)
     {
         if (other is not CollectionValue otherP || otherP.CastedValues.Length != CastedValues.Length) return false;
-        for (int i = 0; i < CastedValues.Length; i++)
-        {
-            if (!CastedValues[i].EqualCondition(otherP.CastedValues[i])) return false;
-        }
-        return true;
+        return !CastedValues.Where((val, i) => !val.EqualCondition(otherP.CastedValues[i])).Any();
     }
+
+    public override int HashCode => CastedValues.GetHashCode();
 
     public TryGet<Value> GetAt(int index)
     {
@@ -74,59 +78,63 @@ public class CollectionValue(IEnumerable value) : Value
         }
     }
 
-    public CollectionValue Insert(object obj)
+    public static CollectionValue Insert(CollectionValue collection, Value value)
     {
-        Value parsed = Parse(obj);
-        var valuesType = Type;
-        if (valuesType == parsed.GetType() || valuesType is null)
+        if (collection.Type is not { } type)
         {
-            return new CollectionValue(CastedValues.Append(parsed));
+            return new CollectionValue(new[] { value });
         }
-        else
+        
+        if (type.IsInstanceOfType(value))
         {
-            throw new ScriptRuntimeError($"Value ({parsed.GetType()}) has to be the same type as the collection ({valuesType}).");
+            return new CollectionValue(collection.CastedValues.Append(value));
         }
+
+        throw new ScriptRuntimeError($"Inserted value {value.FriendlyName()} has to be the same type as the collection ({FriendlyName(type)}).");
     }
 
     /// <summary>
     /// Removes every match if <paramref name="amountToRemove"/> is -1
     /// </summary>
-    public CollectionValue Remove(Value parsed, int amountToRemove = -1)
+    public static CollectionValue Remove(CollectionValue collection, Value value, int amountToRemove = -1)
     {
-        var values = CastedValues.ToList();
-        if (parsed.GetType() != Type)
+        if (collection.Type is not { } type)
         {
-            throw new ScriptRuntimeError($"Value ({parsed.GetType()}) has to be the same type as the collection ({Type}).");
+            throw new ScriptRuntimeError("Collection is empty");
+        }
+        
+        if (type.IsInstanceOfType(value))
+        {
+            throw new ScriptRuntimeError($"Value {value.FriendlyName()} has to be the same type as the collection ({FriendlyName(type)}).");
         }
 
+        var values = collection.CastedValues.ToList();
         values.RemoveAll(val =>
         {
-            if (val == parsed)
+            if (val != value)
             {
-                return amountToRemove > 0 ? amountToRemove-- > 0 : amountToRemove != 0;
+                return false;
             }
-            return false;
+            
+            return amountToRemove-- > 0;
         });
 
         return new CollectionValue(values);
     }
 
-    public CollectionValue Remove(object obj, int amountToRemove = -1)
+    public static CollectionValue RemoveAt(CollectionValue collection, int index)
     {
-        Value parsed = Parse(obj);
-        return Remove(parsed, amountToRemove);
-    }
-
-    public CollectionValue RemoveAt(int index)
-    {
-        return new CollectionValue(CastedValues.Where((_, i) => i != index - 1));
+        return new CollectionValue(collection.CastedValues.Where((_, i) => i != index - 1));
     }
 
     public static CollectionValue operator +(CollectionValue lhs, CollectionValue rhs)
     {
         if (lhs.Type != rhs.Type)
         {
-            throw new ScriptRuntimeError($"Both collections have to be of same type. Provided types: {lhs.Type} and {rhs.Type}");
+            throw new ScriptRuntimeError(
+                $"Both collections have to be of same type. " +
+                $"Provided types: {lhs.GetType().AccurateName} and {rhs.Type?.AccurateName ?? "none"}"
+            );
         }
 
         return new CollectionValue(lhs.CastedValues.Concat(rhs.CastedValues));
@@ -136,7 +144,10 @@ public class CollectionValue(IEnumerable value) : Value
     {
         if (lhs.Type != rhs.Type)
         {
-            throw new ScriptRuntimeError($"Both collections have to be of same type. Provided types: {lhs.Type} and {rhs.Type}");
+            throw new ScriptRuntimeError(
+                $"Both collections have to be of same type. " +
+                $"Provided types: {lhs.Type?.AccurateName ?? "none"} and {rhs.Type?.AccurateName ?? "none"}"
+            );
         }
 
         return new CollectionValue(lhs.CastedValues.Where(val => !rhs.CastedValues.Contains(val)));

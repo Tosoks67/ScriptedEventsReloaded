@@ -1,5 +1,4 @@
-﻿using InventorySystem.Items;
-using LabApi.Features.Wrappers;
+﻿using LabApi.Features.Wrappers;
 using PlayerRoles;
 using PlayerRoles.PlayableScps.Scp079;
 using SER.ArgumentSystem.Arguments;

@@ -30,4 +30,6 @@ public abstract class Variable<TValue> : Variable
 {
     public abstract TValue Value { get; }
     public override Value BaseValue => Value;
+    
+    public static implicit operator TValue(Variable<TValue> variable) => variable.Value;
 }

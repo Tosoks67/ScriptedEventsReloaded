@@ -6,7 +6,7 @@ using SER.ValueSystem;
 namespace SER.MethodSystem.Methods.CollectionVariableMethods;
 public class SubtractCollectionsMethod : ReturningMethod<CollectionValue>
 {
-    public override string? Description => "Returns a collection that has the values of the first collection without the values of the latter";
+    public override string Description => "Returns a collection that has the values of the first collection without the values of the latter";
 
     public override Argument[] ExpectedArguments { get; } =
     [

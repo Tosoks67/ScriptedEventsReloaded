@@ -1,17 +1,19 @@
 ﻿using SER.ArgumentSystem.Arguments;
 using SER.ArgumentSystem.BaseArguments;
 using SER.MethodSystem.BaseMethods;
+using SER.ValueSystem;
 using SER.VariableSystem.Variables;
 
 namespace SER.MethodSystem.Methods.CollectionVariableMethods;
+
 public class CollectionRemoveMethod : SynchronousMethod
 {
-    public override string? Description => "Removes the value from the collection variable";
+    public override string Description => "Removes a matching value from a collection variable";
 
     public override Argument[] ExpectedArguments { get; } =
     [
         new CollectionVariableArgument("collection variable"),
-        new AnyValueArgument("value"),
+        new AnyValueArgument("value to remove"),
         new IntArgument("amount of matches to remove", -1)
         {
             Description = "Will delete every match if -1.",
@@ -21,10 +23,15 @@ public class CollectionRemoveMethod : SynchronousMethod
 
     public override void Execute()
     {
-        var collVar = Args.GetCollectionVariable("collection variable");
-        var i = Args.GetInt("amount of matches to remove");
-        var expectedVal = Args.GetAnyValue("value");
-
-        Script.AddVariable(new CollectionVariable(collVar.Name, collVar.Value.Remove(expectedVal, i)));
+        var collectionVar = Args.GetCollectionVariable("collection variable");
+        var amountToRemove = Args.GetInt("amount of matches to remove");
+        var value = Args.GetAnyValue("value to remove");
+        
+        Script.AddVariable(
+            new CollectionVariable(
+                collectionVar.Name,
+                CollectionValue.Remove(collectionVar.Value, value, amountToRemove)
+            )
+        );
     }
 }

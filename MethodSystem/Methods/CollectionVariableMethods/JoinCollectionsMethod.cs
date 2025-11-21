@@ -6,7 +6,7 @@ using SER.ValueSystem;
 namespace SER.MethodSystem.Methods.CollectionVariableMethods;
 public class JoinCollectionsMethod : ReturningMethod<CollectionValue>
 {
-    public override string? Description => "Returns a collection that has the combined values of all the given collections";
+    public override string Description => "Returns a collection that has the combined values of all the given collections";
 
     public override Argument[] ExpectedArguments { get; } =
     [

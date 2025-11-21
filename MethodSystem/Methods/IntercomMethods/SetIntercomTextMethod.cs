@@ -8,7 +8,7 @@ namespace SER.MethodSystem.Methods.IntercomMethods;
 
 public class SetIntercomTextMethod : SynchronousMethod, IAdditionalDescription
 {
-    public override string? Description => "Sets the text on the Intercom.";
+    public override string Description => "Sets the text on the Intercom.";
 
     public string AdditionalDescription => "Resets the intercom text if given text is empty.";
 

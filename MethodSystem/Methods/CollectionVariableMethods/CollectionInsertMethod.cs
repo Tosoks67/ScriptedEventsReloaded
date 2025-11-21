@@ -2,12 +2,14 @@
 using SER.ArgumentSystem.BaseArguments;
 using SER.MethodSystem.BaseMethods;
 using SER.MethodSystem.MethodDescriptors;
+using SER.ValueSystem;
 using SER.VariableSystem.Variables;
 
 namespace SER.MethodSystem.Methods.CollectionVariableMethods;
+
 public class CollectionInsertMethod : SynchronousMethod, IAdditionalDescription
 {
-    public override string? Description => "Adds the value to the collection variable";
+    public override string Description => "Adds a value to a collection variable";
 
     public string AdditionalDescription =>
         "If value is a CollectionValue, it will nest the collection inside the collection variable. " +
@@ -22,6 +24,12 @@ public class CollectionInsertMethod : SynchronousMethod, IAdditionalDescription
     public override void Execute()
     {
         var collVar = Args.GetCollectionVariable("collection variable");
-        Script.AddVariable(new CollectionVariable(collVar.Name, collVar.Value.Insert(Args.GetAnyValue("value"))));
+        
+        Script.AddVariable(
+            new CollectionVariable(
+                collVar.Name, 
+                CollectionValue.Insert(collVar, Args.GetAnyValue("value"))
+            )
+        );
     }
 }

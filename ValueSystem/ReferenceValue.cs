@@ -14,6 +14,8 @@ public class ReferenceValue(object? value) : Value
         return Value.Equals(otherP.Value);
     }
 
+    public override int HashCode => Value.GetHashCode();
+
     public override string ToString()
     {
         return $"<{Value.GetType().GetAccurateName()} reference | {Value.GetHashCode()}>";

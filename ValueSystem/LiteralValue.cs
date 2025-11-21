@@ -26,7 +26,7 @@ public abstract class LiteralValue(object value) : Value
         return $"Value is not of type {typeof(T).FriendlyTypeName()}, but {Value.FriendlyTypeName()}.";
     }
 
-    public string Serialize() => Value.ToString();
+    public override int HashCode => Value.GetHashCode();
 }
 
 public abstract class LiteralValue<T>(T value) : LiteralValue(value) 

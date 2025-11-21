@@ -1,12 +1,14 @@
 ﻿using SER.ArgumentSystem.Arguments;
 using SER.ArgumentSystem.BaseArguments;
 using SER.MethodSystem.BaseMethods;
+using SER.ValueSystem;
 using SER.VariableSystem.Variables;
 
 namespace SER.MethodSystem.Methods.CollectionVariableMethods;
+
 public class CollectionRemoveAtMethod : SynchronousMethod
 {
-    public override string? Description => "Removes the value at the provided index from the collection variable";
+    public override string Description => "Removes a value at the provided index from a collection variable";
 
     public override Argument[] ExpectedArguments { get; } =
     [
@@ -22,6 +24,11 @@ public class CollectionRemoveAtMethod : SynchronousMethod
         var collVar = Args.GetCollectionVariable("collection variable");
         var index = Args.GetInt("index");
 
-        Script.AddVariable(new CollectionVariable(collVar.Name, collVar.Value.RemoveAt(index)));
+        Script.AddVariable(
+            new CollectionVariable(
+                collVar.Name,
+                CollectionValue.RemoveAt(collVar, index)
+            )
+        );
     }
 }
