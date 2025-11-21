@@ -50,7 +50,15 @@ public class CollectionValue(IEnumerable value) : Value
         }
     } = null!;
 
-    public override bool EqualCondition(Value other) => other is CollectionValue otherP && CastedValues.SequenceEqual(otherP.CastedValues) && Type == otherP.Type;
+    public override bool EqualCondition(Value other)
+    {
+        if (other is not CollectionValue otherP || otherP.CastedValues.Length != CastedValues.Length) return false;
+        for (int i = 0; i < CastedValues.Length; i++)
+        {
+            if (!CastedValues[i].EqualCondition(otherP.CastedValues[i])) return false;
+        }
+        return true;
+    }
 
     public TryGet<Value> GetAt(int index)
     {
