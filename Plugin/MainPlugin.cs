@@ -82,6 +82,8 @@ public class MainPlugin : LabApi.Loader.Features.Plugins.Plugin<Config>
     
     private void OnServerFullyInit()
     {
+        if (Config?.SendHelpMessageOnServerInitialization is false) return;
+        
         Logger.Raw(
             $"""
              Thank you for using ### Scripted Events Reloaded ### by {Author}!
@@ -100,6 +102,7 @@ public class MainPlugin : LabApi.Loader.Features.Plugins.Plugin<Config>
         Logger.Raw(
             """
             #####################################
+            
               █████████  ██████████ ███████████  
              ███░░░░░███░░███░░░░░█░░███░░░░░███ 
             ░███    ░░░  ░███  █ ░  ░███    ░███ 
@@ -108,6 +111,7 @@ public class MainPlugin : LabApi.Loader.Features.Plugins.Plugin<Config>
              ███    ░███ ░███ ░   █ ░███    ░███ 
             ░░█████████  ██████████ █████   █████
              ░░░░░░░░░  ░░░░░░░░░░ ░░░░░   ░░░░░ 
+             
             #####################################
 
             This project would not be possible without the help of:
