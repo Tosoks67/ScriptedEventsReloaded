@@ -70,7 +70,6 @@
     <ItemGroup>
         <None Include="App.config" />
         <None Include="packages.config" />
-        <None Include="SER.sln.DotSettings.user" />
         <Content Include=".gitignore" />
         <Content Include="README.md" />
         <None Include="THIRD_PARTY_LICENSES.txt" CopyToOutputDirectory="Always" />
