@@ -2,7 +2,7 @@
 
 public struct MustSet<T>
 {
-    private bool _set;
+    private readonly bool _set;
 
     public T Value
     {
@@ -12,7 +12,7 @@ public struct MustSet<T>
                 throw new InvalidOperationException($"Attempted to get {typeof(T).Name} before it was set.");
             return field;
         }
-        set
+        init
         {
             field = value;
             _set = true;
@@ -20,5 +20,5 @@ public struct MustSet<T>
     }
 
     public static implicit operator T(MustSet<T> wrapper) => wrapper.Value;
-    public static implicit operator MustSet<T>(T value) => new MustSet<T> { Value = value };
+    public static implicit operator MustSet<T>(T value) => new() { Value = value };
 }

@@ -4,20 +4,7 @@ namespace SER.Helpers.ResultSystem;
 
 public abstract class DynamicTryGet
 {
-    private readonly bool _isStaticSet = false;
-    public bool IsStatic
-    {
-        get
-        {
-            if (!_isStaticSet) throw new AndrzejFuckedUpException("IsStatic cannot be accessed before it is set.");
-            return field;
-        }
-        protected init
-        {
-            _isStaticSet = true;
-            field = value;
-        }
-    }
+    public MustSet<bool> IsStatic { get; protected init; }
     
     public abstract Result Result { get; }
     
